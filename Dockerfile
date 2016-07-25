@@ -42,8 +42,11 @@ RUN pip install --upgrade \
         pip \
         setuptools
 
-COPY ./docker-entrypoint.sh /
+RUN curl -L# https://s3.amazonaws.com/download.draios.com/stable/sysdig-probe-binaries/sysdig-probe-0.11.0-x86_64-4.5.0-coreos-r1-ecf53d2176b03dc2569dc7548e489f5d.ko -o /lib/modules/sysdig-probe-0.11.0-x86_64-4.5.0-coreos.ko
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+COPY ./docker-entrypoint.sh /bin/
+RUN chmod +x /bin/docker-entrypoint.sh
+
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]
 
 CMD ["bash"]

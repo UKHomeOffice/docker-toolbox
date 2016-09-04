@@ -7,47 +7,50 @@ ENV SYSDIG_REPOSITORY stable
 ENV SYSDIG_HOST_ROOT  /host
 ENV HOME              /root
 
-LABEL RUN="docker run -i -t -v /var/run/docker.sock:/host/var/run/docker.sock -v /dev:/host/dev -v /proc:/host/proc:ro -v /boot:/host/boot:ro -v /lib/modules:/host/lib/modules:ro -v /usr:/host/usr:ro --privileged --name NAME IMAGE"
+LABEL RUN="docker run -i -t --bind=/var/run/docker.sock:/host/var/run/docker.sock --bind=/dev:/host/dev --bind=/proc:/host/proc --bind=/boot:/host/boot --bind=/lib/modules:/host/lib/modules --bind=/usr:/host/usr --bind=/home:/host/home --privileged --name toolbox quay.io/ukhomeofficedigital/toolbox"
 
 RUN rpm --import https://s3.amazonaws.com/download.draios.com/DRAIOS-GPG-KEY.public && \
     curl -s -o /etc/yum.repos.d/draios.repo http://download.draios.com/stable/rpm/draios.repo && \
     yum install -y epel-release && \
     yum install -y \
-        curl \
-        python-pip \
-        syslinux \
-        nettools \
-        vim \
-        tar \
-        less \
-        tcpdump \
-        lsof \
-        vmstat \
-        iostat \
-        sysstat \
-        iproute \
-        gcc-cpp \
-        ngrep \
-        httpry \
-        pv \
+        ack \
         bash-completion \
+        bind-utils \
         ca-certificates \
+        curl \
         elfutils-libelf \
         elfutils-libelf-devel \
-        kernel-devel \
-        net-tools \
-        jq \
-        strace \
-        man \
-        tree \
-        mtr \
-        ack \
-        wget \
-        bind-utils \
-        smartmontools \
+        gcc-cpp \
+        hdparm \
         htop \
+        httpry \
+        iftop \
+        iostat \
+        iproute \
+        jq \
+        kernel-devel \
+        less \
+        lsof \
+        ltrace \
+        man \
+        mtr \
+        nettools \
+        net-tools \
+        ngrep \
         nmap \
-        sysdig && \
+        python-pip \
+        pv \
+        smartmontools \
+        strace \
+        sysdig \
+        syslinux \
+        sysstat \
+        tar \
+        tcpdump \
+        tree \
+        vmstat \
+        wget \
+        vim && \
     yum clean all
 
 RUN ln -s $SYSDIG_HOST_ROOT/lib/modules /lib/modules
